@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% block title %}newsymfony{% endblock %}
+
+{% block body %}
+{#{%  for user in users %}#}
+    {#<h1>{{ user }}</h1>#}
+{#{%  endfor %}#}
+    <a href="/user/new">add new user</a>
+    <table id="users" class="table table-striped">
+        <thead>
+        <tr>
+            <th>User Name</th>
+            <th>user Country</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{user.name}}</td>
+                <td>{{user.country}}</td>
+                <td><a href="/user/{{user.id}}" class="btn btn-dark">show</a>
+                    <a href="/user/edit/{{user.id}}" class="btn btn-success">edit</a>
+                    <a href="#" class="btn btn-danger article_delete" onclick="deleteuser(event)" data-id="{{user.id}}">delete</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{%  endblock %}
+{% block javascripts %}
+    <script src="/js/main.js"></script>
+
+{% endblock %}
