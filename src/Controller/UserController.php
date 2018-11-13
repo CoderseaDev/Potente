@@ -12,10 +12,11 @@ use Sensio\Bundle\FrameWorkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Flex\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Entity\Image;
+use App\Form\ImageUploadType;
+
+
 
 class UserController extends Controller
 {
@@ -27,11 +28,6 @@ class UserController extends Controller
     {
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
         return $this->render('user/index.html.twig', array('users' => $users));
-
-//         $articles=['article 1','article 2'];
-//         return new SymfonyResponse('<html><body>Hello</body></html>');
-//         return $this->render('articles/index.html.twig',array('name'=>'brand'));
-//         return $this->render('articles/index.html.twig',array('articles' => $articles));
     }
 
     /**
@@ -62,28 +58,24 @@ class UserController extends Controller
      */
     public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        // 1) build the form
+
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
-        // 2) handle the submit (will only happen on POST)
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
 
-            // 3) Encode the password (you could also do this via Doctrine listener)
+
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
 
-            // 4) save the User!
+
             $user = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-
-
-            // ... do any other work - like sending them an email, etc
-            // maybe set a "flash" success message for the user
 
             return $this->redirectToRoute('user_list');
         }
@@ -131,6 +123,43 @@ class UserController extends Controller
         return new SymfonyResponse('saved user with id' . $user->getId());
     }
 
+
+    /**
+     * @Route("/image", name="image_upload")
+     */
+    public function indexAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $imageEn = new Image();
+
+        $form = $this->createForm(ImageUploadType::class, $imageEn);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $file = $imageEn->getImage();
+//            dump($imageEn->getImage());
+
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+            $file->move($this->getParameter('uploads_directory'), $fileName);
+
+            $imageEn->setImage($fileName);
+            $em->persist($imageEn);
+            $em->flush();
+
+            $this->addFlash('notice', 'Post Submitted Successfully!!!');
+
+            return $this->redirectToRoute('user_list');
+
+        }
+
+        return $this->render('image/image.html.twig', array(
+
+            'form' => $form->createView()
+        ));
+    }
 }
 
 
