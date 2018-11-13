@@ -1,8 +1,10 @@
-{{ form_start(form) }}
-    {{ form_row(form.username) }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.plainPassword.first) }}
-    {{ form_row(form.plainPassword.second) }}
+{% extends 'base.html.twig' %}
 
-<button type="submit">Register!</button>
-{{ form_end(form) }}
+{% block title %}Register{% endblock title %}
+    {% block body %}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    {%  endblock %}
+
+
