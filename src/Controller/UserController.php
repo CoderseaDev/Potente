@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Form\UserType;
 use App\Entity\User;
+use App\Form\UserEdit;
 // use http\Env\Request;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends Controller
 {
@@ -31,7 +34,6 @@ class UserController extends Controller
 //         return $this->render('articles/index.html.twig',array('articles' => $articles));
     }
 
-
     /**
      * @Route("/user/edit/{id}",name="edit_user")
      * Method({"GET"})
@@ -40,15 +42,7 @@ class UserController extends Controller
     {
         $user = new User();
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
-        $form = $this->createFormBuilder($user)
-            ->add('username', TextType::class, array(
-                'attr' => array('class' => 'form-control')))
-            ->add('email', TextType::class, array(
-                'attr' => array('class' => 'form-control')))
-            ->add('save', submitType::class, array(
-                'label' => 'update',
-                'attr' => array('class' => 'btn btn-dark mt-3')))
-            ->getForm();
+        $form = $this->createForm(UserEdit::class,$user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -66,32 +60,38 @@ class UserController extends Controller
      * @Route("/user/new",name="new_user")
      * Method({"GET"})
      */
-    public function new(Request $request)
+    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
+        // 1) build the form
         $user = new User();
-        $form = $this->createFormBuilder($user)
-            ->add('username', TextType::class, array(
-                'attr' => array('class' => 'form-control')))
-            ->add('email', TextType::class, array(
-                'attr' => array('class' => 'form-control')))
-            ->add('password', TextType::class, array(
-                'attr' => array('class' => 'form-control')))
-            ->add('save', submitType::class, array(
-                'label' => 'create',
-                'attr' => array('class' => 'btn btn-dark mt-3')))
-            ->getForm();
+        $form = $this->createForm(UserType::class, $user);
 
+        // 2) handle the submit (will only happen on POST)
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid())
+        {
+
+            // 3) Encode the password (you could also do this via Doctrine listener)
+            $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($password);
+
+            // 4) save the User!
             $user = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+
+
+            // ... do any other work - like sending them an email, etc
+            // maybe set a "flash" success message for the user
+
             return $this->redirectToRoute('user_list');
         }
+
         return $this->render("user/new.html.twig", array(
             'form' => $form->createView()
         ));
+
     }
 
     /**
