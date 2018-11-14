@@ -22,15 +22,21 @@ class UserType extends AbstractType
              'attr' => array('class' => 'form-control')))
             ->add('email', EmailType::class, array(
                 'attr' => array('class' => 'form-control')))
+
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
-                'first_options'  => array('label' => 'Password'),
-                'second_options' => array('label' => 'Repeat Password'),
-                'attr' => array('class' => 'form-control')))
-//            ->add('my_file',FileType::class,[
-//                'mapped' => false,
-//                'label' => "plase select your image",
-//            ])
+                'first_options'  => array(
+                    'label' => 'Password',
+                    'attr' => array('class' => 'form-control')),
+                'second_options' => array(
+                    'label' => 'Repeat Password',
+                    'attr' => array('class' => 'form-control'))))
+
+            ->add('my_file',FileType::class,[
+                'mapped' => false,
+                'label' => "plase select your image",
+                'attr' => array('class' => 'mt-3')
+            ])
             ->add('save', submitType::class, array(
                 'label' => 'save',
                  'attr' => array('class' => 'btn btn-dark mt-3')));
