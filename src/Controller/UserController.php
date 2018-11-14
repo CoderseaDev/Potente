@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\UserType;
 use App\Entity\User;
+use App\Entity\Files;
 use App\Form\UserEdit;
 // use http\Env\Request;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
@@ -67,19 +68,16 @@ class UserController extends Controller
         if ($form->isSubmitted() && $form->isValid())
         {
 
-
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
-
 
             $user = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_list');
+                return $this->redirectToRoute('user_list');
         }
-
         return $this->render("user/new.html.twig", array(
             'form' => $form->createView()
         ));
@@ -116,8 +114,6 @@ class UserController extends Controller
     {
         $entityManager = $this->getDoctrine()->getManager();
         $user = new  User();
-//         $user->settitle("article one");
-//         $user->setbody("body one");
         $entityManager->persist($user);
         $entityManager->flush();
         return new SymfonyResponse('saved user with id' . $user->getId());
@@ -139,7 +135,6 @@ class UserController extends Controller
         if($form->isSubmitted() && $form->isValid()){
 
             $file = $imageEn->getImage();
-//            dump($imageEn->getImage());
 
             $fileName = md5(uniqid()).'.'.$file->guessExtension();
 
@@ -160,6 +155,7 @@ class UserController extends Controller
             'form' => $form->createView()
         ));
     }
+
 }
 
 
