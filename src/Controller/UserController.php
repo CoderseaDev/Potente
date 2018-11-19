@@ -7,6 +7,8 @@ use App\Entity\User;
 use App\Entity\Files;
 use App\Form\UserEdit;
 // use http\Env\Request;
+use Intervention\Image\Facades\Image as Img;
+use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameWorkExtraBundle\Configuration\Method;
@@ -16,7 +18,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\Image;
 use App\Form\ImageUploadType;
-
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 
 class UserController extends Controller
@@ -39,7 +42,7 @@ class UserController extends Controller
     {
         $user = new User();
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
-        $form = $this->createForm(UserEdit::class,$user);
+        $form = $this->createForm(UserEdit::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -63,25 +66,25 @@ class UserController extends Controller
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
-
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid())
-        {
+
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
+
+            $this->addFlash('notice', 'Post Submitted Successfully!!!');
 
             $user = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
-                return $this->redirectToRoute('user_list');
+            return $this->redirectToRoute('user_list');
         }
         return $this->render("user/new.html.twig", array(
             'form' => $form->createView()
         ));
-
     }
 
     /**
@@ -122,39 +125,99 @@ class UserController extends Controller
 
     /**
      * @Route("/image", name="image_upload")
+     * Method({"GET"})
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, \Symfony\Component\Asset\Packages $assetsManager)
     {
         $em = $this->getDoctrine()->getManager();
         $imageEn = new Image();
+
+        $user = $this->getUser();
 
         $form = $this->createForm(ImageUploadType::class, $imageEn);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $file = $imageEn->getImage();
 
-            $fileName = md5(uniqid()).'.'.$file->guessExtension();
-
+            //mimetype
+            $mimetype = $file->getClientMimeType();
+            //file_Extension
+            $extension = $file->guessExtension();
+            //hashName
+            $hashname = md5(uniqid());
+            //file_Name
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            //image_path
+            $path = $assetsManager->getUrl('uploads/profile_images/' . $fileName);
+            //file_Name
+            $filename = $file->getClientOriginalName();
+            //file_size
+            $size = $file->getClientSize();
+            //file_URL
+            $url = "fsdfsdf";
             $file->move($this->getParameter('uploads_directory'), $fileName);
-
+            $imageEn->setName($fileName);
             $imageEn->setImage($fileName);
+            $imageEn->setSize($size);
+            $imageEn->setExt($extension);
+            $imageEn->setMinType($mimetype);
+            $imageEn->setHashName($hashname);
+            $imageEn->setUrl('/' . 'uploads' . '/' . 'profile_images' . '/' . $fileName);
+            $imageEn->setUserId($user);
             $em->persist($imageEn);
             $em->flush();
 
             $this->addFlash('notice', 'Post Submitted Successfully!!!');
 
             return $this->redirectToRoute('user_list');
-
         }
-
         return $this->render('image/image.html.twig', array(
 
             'form' => $form->createView()
         ));
     }
+
+    /**
+     * @Route("/image", name="image_upload")
+     */
+//    public function upload(Request $request)
+//    {
+//        $folder="";
+//        $em = $this->getDoctrine()->getManager();
+//        $imageEn = new f();
+//        $form = $this->createForm(ImageUploadType::class, $imageEn);
+//        $form->handleRequest($request);
+//        if($form->isSubmitted() && $form->isValid()) {
+//            $file = $imageEn->getImage();
+//            if ($file) {
+//                $extension = $file->guessClientExtension();
+//                $tempPath = $file->getPathName();
+//                $ImageFileData = Img::make($tempPath);
+//                $size = $ImageFileData->filesize();
+////                // image info (width and height)
+////                $image_width = $ImageFileData->width();
+////                $image_height = $ImageFileData->height();
+//                $filename = $file->getClientOriginalName();
+//                $type = $file->getMimeType();
+//                $hash = str_random(20);
+//                $hashName = $hash . "." . $extension;
+//                $ImgPath = public_path($folder . '/' . $hashName);
+//                $ImageFileData->save($ImgPath, 75)->encode('jpg', 60);
+//                $ImageFileData->destroy();
+//
+//
+//                return $type;
+//            }
+//        }
+//        return $this->render('image/image.html.twig', array(
+//            'form' => $form->createView()
+//        ));
+//
+//    }
+
 
 }
 

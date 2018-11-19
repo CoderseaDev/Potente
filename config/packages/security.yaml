@@ -3,13 +3,24 @@ security:
             App\Entity\User: bcrypt
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+        my_provider:
+                    entity:
+                        class: App\Entity\User
+                        property: username
     firewalls:
         dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
+#            user_checker: App\Security\UserChecker
+            form_login:
+                login_path: login
+                check_path: login
+                provider: my_provider
+            logout:
+                 path:   /logout
+                 target: /
 
             # activate different ways to authenticate
 
@@ -24,3 +35,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_USER }
+
