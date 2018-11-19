@@ -15,17 +15,16 @@ class ImageUploadType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class,array(
-                  'attr' => array('class' => 'form-control')))
-            ->add('description', TextType::class, array(
-                  'attr' => array('class' => 'form-control')))
+//            ->add('title', TextType::class,array(
+//                  'attr' => array('class' => 'form-control')))
+//            ->add('description', TextType::class, array(
+//                  'attr' => array('class' => 'form-control')))
             ->add('image', FileType::class, array(
                   'label'=>'Upload Image',
                   'attr' => array('class' => 'mt-3')))
             ->add('submit', SubmitType::class, array(
                 'label' => 'save',
                 'attr' => array('class' => 'btn btn-dark mt-3')));
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
