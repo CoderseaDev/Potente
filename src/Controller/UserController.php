@@ -60,11 +60,14 @@ class UserController extends Controller
      * @Route("/user/new",name="new_user")
      * Method({"GET"})
      */
-    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder, \Symfony\Component\Asset\Packages $assetsManager)
     {
 
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
+
+        $imageEn = new Image();
+        $form1 = $this->createForm(ImageUploadType::class, $imageEn);
 
         $form->handleRequest($request);
 
@@ -80,12 +83,47 @@ class UserController extends Controller
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $form1->handleRequest($request);
+            if ($form1->isSubmitted() && $form1->isValid()){
+
+                $em = $this->getDoctrine()->getManager();
+                $user = $this->getUser();
+                $file = $imageEn->getImage();
+
+            //mimetype
+            $mimetype = $file->getClientMimeType();
+            //file_Extension
+            $extension = $file->guessExtension();
+            //hashName
+            $hashname = md5(uniqid());
+            //file_Name
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            //image_path
+            $path = $assetsManager->getUrl('uploads/profile_images/' . $fileName);
+            //file_Name
+            $filename = $file->getClientOriginalName();
+            //file_size
+            $size = $file->getClientSize();
+            //file_URL
+            $file->move($this->getParameter('uploads_directory'), $fileName);
+            $imageEn->setName($fileName);
+            $imageEn->setImage($fileName);
+            $imageEn->setSize($size);
+            $imageEn->setExt($extension);
+            $imageEn->setMinType($mimetype);
+            $imageEn->setHashName($hashname);
+            $imageEn->setUrl('/' . 'uploads' . '/' . 'profile_images' . '/' . $fileName);
+            $imageEn->setUserId($user);
+            $em->persist($imageEn);
+            $em->flush();
             return $this->redirectToRoute('user_list');
+         }
         }
-        return $this->render("user/new.html.twig", array(
-            'form' => $form->createView()
-        ));
-    }
+            return $this->render("user/new.html.twig", array(
+                'form' => $form->createView()
+            ));
+        }
+
 
     /**
      * @Route("/user/{id}",name="user_show")
@@ -157,7 +195,6 @@ class UserController extends Controller
             //file_size
             $size = $file->getClientSize();
             //file_URL
-            $url = "fsdfsdf";
             $file->move($this->getParameter('uploads_directory'), $fileName);
             $imageEn->setName($fileName);
             $imageEn->setImage($fileName);
@@ -179,45 +216,6 @@ class UserController extends Controller
             'form' => $form->createView()
         ));
     }
-
-    /**
-     * @Route("/image", name="image_upload")
-     */
-//    public function upload(Request $request)
-//    {
-//        $folder="";
-//        $em = $this->getDoctrine()->getManager();
-//        $imageEn = new f();
-//        $form = $this->createForm(ImageUploadType::class, $imageEn);
-//        $form->handleRequest($request);
-//        if($form->isSubmitted() && $form->isValid()) {
-//            $file = $imageEn->getImage();
-//            if ($file) {
-//                $extension = $file->guessClientExtension();
-//                $tempPath = $file->getPathName();
-//                $ImageFileData = Img::make($tempPath);
-//                $size = $ImageFileData->filesize();
-////                // image info (width and height)
-////                $image_width = $ImageFileData->width();
-////                $image_height = $ImageFileData->height();
-//                $filename = $file->getClientOriginalName();
-//                $type = $file->getMimeType();
-//                $hash = str_random(20);
-//                $hashName = $hash . "." . $extension;
-//                $ImgPath = public_path($folder . '/' . $hashName);
-//                $ImageFileData->save($ImgPath, 75)->encode('jpg', 60);
-//                $ImageFileData->destroy();
-//
-//
-//                return $type;
-//            }
-//        }
-//        return $this->render('image/image.html.twig', array(
-//            'form' => $form->createView()
-//        ));
-//
-//    }
-
 
 }
 

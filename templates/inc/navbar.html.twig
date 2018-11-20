@@ -4,27 +4,29 @@
         <span class="navbar-toggle-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="mobile-nav">
+            {% set route = app.request.attributes.get('_route') %}
             <ul class="navbar-nav ml-auto">
                 {% if app.user %}
                     <li class="nav-item">
-                        <a href="/user/new" class="nav-link">add new user</a>
+                        <a href="/user/new" class="nav-link {{ route=='new_user'?'active':'' }}">add new user</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/image" class="nav-link">add profile image</a>
+                        <a href="/image" class="nav-link {{ route=='image_upload'?'active':'' }}">add profile image</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ path('logout') }}" class="nav-link">logout</a>
+                        <a href="/logout" class="nav-link {{ route=='logout'?'active':'' }}">logout</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a href="/register" class="nav-link">register</a>
+                        <a href="/register" class="nav-link {{ route=='user_registration'?'active':'' }}">register</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/login" class="nav-link">login</a>
+                        <a href="/login" class="nav-link {{ route=='login'?'active':'' }}">login</a>
                     </li>
                 {% endif %}
             </ul>
         </div>
     </div>
 </nav>
+
 
