@@ -143,4 +143,5 @@ class User implements UserInterface, \Serializable
             // $this->salt
             ) = unserialize($serialized, array('allowed_classes' => false));
     }
+
 }

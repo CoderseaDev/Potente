@@ -11,7 +11,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class UserType extends AbstractType
 {
@@ -31,12 +30,6 @@ class UserType extends AbstractType
                 'second_options' => array(
                     'label' => 'Repeat Password',
                     'attr' => array('class' => 'form-control'))))
-
-            ->add('my_file',FileType::class,[
-                'mapped' => false,
-                'label' => "plase select your image",
-                'attr' => array('class' => 'mt-3')
-            ])
             ->add('save', submitType::class, array(
                 'label' => 'save',
                  'attr' => array('class' => 'btn btn-dark mt-3')));
