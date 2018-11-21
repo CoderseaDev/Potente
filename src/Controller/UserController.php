@@ -81,14 +81,14 @@ class UserController extends Controller
             $entityManager->flush();
 
             $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()){
-            return $this->redirectToRoute('user_list');
-         }
+            if ($form->isSubmitted() && $form->isValid()) {
+                return $this->redirectToRoute('user_list');
+            }
         }
-            return $this->render("user/new.html.twig", array(
-                'form' => $form->createView()
-            ));
-        }
+        return $this->render("user/new.html.twig", array(
+            'form' => $form->createView()
+        ));
+    }
 
 
     /**
@@ -133,7 +133,12 @@ class UserController extends Controller
      */
     public function indexAction(Request $request, \Symfony\Component\Asset\Packages $assetsManager)
     {
+        $user = new User();
+        $username = $this->getUser()->getUsername();
+        $useremail = $this->getUser()->getEmail();
+
         $em = $this->getDoctrine()->getManager();
+
         $imageEn = new Image();
 
         $user = $this->getUser();
@@ -168,20 +173,52 @@ class UserController extends Controller
             $imageEn->setExt($extension);
             $imageEn->setMinType($mimetype);
             $imageEn->setHashName($hashname);
-            $imageEn->setUrl('/' . 'uploads' . '/' . 'profile_images' . '/' . $fileName);
+            $url = $imageEn->setUrl('/' . 'uploads' . '/' . 'profile_images' . '/' . $fileName);
             $imageEn->setUserId($user);
             $em->persist($imageEn);
             $em->flush();
 
             $this->addFlash('notice', 'Post Submitted Successfully!!!');
 
-            return $this->redirectToRoute('user_list');
+            return $this->render('image/image.html.twig',
+                array(
+                    'username' => $username,
+                    'useremail' => $useremail,
+                    'form' => $form->createView(),
+                    'url' => '/' . 'uploads' . '/' . 'profile_images' . '/' . $fileName
+                ));
         }
         return $this->render('image/image.html.twig', array(
-
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'username' => "user name",
+            'useremail' => "user email",
+            'url' => '/' . 'uploads' . '/' . 'profile_images' . '/' . 'default.jpg'
         ));
     }
+
+//    /**
+//     * @Route("/image/{id}", name="user_profile")
+//     * Method({"GET"})
+//     */
+//    public function showUser($id)
+//    {
+//
+//       $users = $this->getDoctrine()->getRepository(User::class)->find($id);
+//        return $this->render('image/image.html.twig', array('users' => $users));
+//
+//    }
+
+//          /**
+//         * @Route("/image/{id}", name="image_upload")
+//         * Method({"GET"})
+//         */
+//    public function showUser($id)
+//    {
+//
+//       $imagedata = $this->getDoctrine()->getRepository(Image::class)->find($id);
+//
+//       return $this->render('image/image.html.twig', array('imagedata' => $imagedata));
+//   }
 
 }
 

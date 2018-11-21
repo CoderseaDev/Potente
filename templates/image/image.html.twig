@@ -1,7 +1,58 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}profile image{% endblock title %}
     {% block body %}
+<link href="/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery-1.11.1.min.js"></script>
+
+<!------ Include the above in your HEAD tag ---------->
+<style>
+
+    body
+    {
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .fb-profile img.fb-image-lg{
+        z-index: 0;
+        width: 30%;
+        margin-bottom: 10px;
+    }
+
+    .fb-image-profile
+    {
+        margin: 0px 10px 0px 50px;
+        z-index: 9;
+        width: 20%;
+    }
+
+    @media (max-width:768px)
+    {
+
+        .fb-profile-text>h1{
+            font-weight: 700;
+            font-size:16px;
+        }
+
+        .fb-image-profile
+        {
+            margin: -45px 10px 0px 25px;
+            z-index: 9;
+            width: 20%;
+        }
+    }
+</style>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<div class="container">
+    <div class="fb-profile">
+        {#<img align="left" class="fb-image-lg" src="uploads/profile_images/8d0560cf464ad31a5fbd04aceb84e328.jpeg" alt="Profile image example"/>#}
+        <img align="left" class="fb-image-profile thumbnail" src="{{ url }}" alt="Profile image example"/>
+        <div class="fb-profile-text">
+            <h1>{{username}}</h1>
+            <p>{{useremail}}</p>
+        </div>
+    </div>
+</div>
         {{ form_start(form) }}
         {{ form_widget(form) }}
         {{ form_end(form) }}
