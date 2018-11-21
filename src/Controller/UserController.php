@@ -66,9 +66,6 @@ class UserController extends Controller
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
-        $imageEn = new Image();
-        $form1 = $this->createForm(ImageUploadType::class, $imageEn);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -83,39 +80,8 @@ class UserController extends Controller
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $form1->handleRequest($request);
-            if ($form1->isSubmitted() && $form1->isValid()){
-
-                $em = $this->getDoctrine()->getManager();
-                $user = $this->getUser();
-                $file = $imageEn->getImage();
-
-            //mimetype
-            $mimetype = $file->getClientMimeType();
-            //file_Extension
-            $extension = $file->guessExtension();
-            //hashName
-            $hashname = md5(uniqid());
-            //file_Name
-            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-            //image_path
-            $path = $assetsManager->getUrl('uploads/profile_images/' . $fileName);
-            //file_Name
-            $filename = $file->getClientOriginalName();
-            //file_size
-            $size = $file->getClientSize();
-            //file_URL
-            $file->move($this->getParameter('uploads_directory'), $fileName);
-            $imageEn->setName($fileName);
-            $imageEn->setImage($fileName);
-            $imageEn->setSize($size);
-            $imageEn->setExt($extension);
-            $imageEn->setMinType($mimetype);
-            $imageEn->setHashName($hashname);
-            $imageEn->setUrl('/' . 'uploads' . '/' . 'profile_images' . '/' . $fileName);
-            $imageEn->setUserId($user);
-            $em->persist($imageEn);
-            $em->flush();
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()){
             return $this->redirectToRoute('user_list');
          }
         }
