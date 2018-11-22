@@ -24,15 +24,35 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\Column(type="string", length=191, unique=true)
      * @Assert\NotBlank()
+     */
+    private $username;
+
+    /**
+     * @ORM\Column(type="string", length=191, nullable=true)
+     */
+    private $lastname;
+
+    /**
+     * @ORM\Column(type="string", length=191, unique=true)
+     * @Assert\NotBlank()
      * @Assert\Email()
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=191, unique=true)
-     * @Assert\NotBlank()
+     * @ORM\Column(type="string", length=191, nullable=true)
      */
-    private $username;
+    private $phone;
+
+    /**
+     * @ORM\Column(type="string", length=191, nullable=true)
+     */
+    private $mobile;
+
+    /**
+     * @ORM\Column(type="string", length=191, nullable=true)
+     */
+    private $location;
 
     /**
      * @Assert\NotBlank()
@@ -103,6 +123,47 @@ class User implements UserInterface, \Serializable
     {
         $this->password = $password;
     }
+
+    public function getphone()
+    {
+        return $this->phone;
+    }
+
+    public function setphone($phone)
+    {
+        $this->email = $phone;
+    }
+
+    public function getmobile()
+    {
+        return $this->mobile;
+    }
+
+    public function setmobile($mobile)
+    {
+        $this->email = $mobile;
+    }
+
+    public function getlastname()
+    {
+        return $this->lastname;
+    }
+
+    public function setlastname($lastname)
+    {
+        $this->email = $lastname;
+    }
+
+    public function getlocation()
+    {
+        return $this->location;
+    }
+
+    public function setlocation($location)
+    {
+        $this->email = $location;
+    }
+
 
     public function getSalt()
     {
