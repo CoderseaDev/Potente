@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Form\UserType;
 use App\Entity\User;
-use App\Entity\Files;
 use App\Form\UserEdit;
 // use http\Env\Request;
 use Intervention\Image\Facades\Image as Img;
@@ -165,61 +164,36 @@ class UserController extends Controller
             $filename = $file->getClientOriginalName();
             //file_size
             $size = $file->getClientSize();
-            //file_URL
-            $file->move($this->getParameter('uploads_directory'), $fileName);
-            $imageEn->setName($fileName);
-            $imageEn->setImage($fileName);
-            $imageEn->setSize($size);
-            $imageEn->setExt($extension);
-            $imageEn->setMinType($mimetype);
-            $imageEn->setHashName($hashname);
-            $url = $imageEn->setUrl('/' . 'uploads' . '/' . 'profile_images' . '/' . $fileName);
-            $imageEn->setUserId($user);
-            $em->persist($imageEn);
-            $em->flush();
+                $file->move($this->getParameter('uploads_directory'), $fileName);
+                $imageEn->setName($fileName);
+                $imageEn->setImage($fileName);
+                $imageEn->setSize($size);
+                $imageEn->setExt($extension);
+                $imageEn->setMinType($mimetype);
+                $imageEn->setHashName($hashname);
+                $url = $imageEn->setUrl('/' . 'uploads' . '/' . 'profile_images' . '/' . $fileName);
+                $imageEn->setUserId($user);
+                $em->persist($imageEn);
+                $em->flush();
 
-            $this->addFlash('notice', 'Post Submitted Successfully!!!');
+                $this->addFlash('notice', 'Post Submitted Successfully!!!');
 
-            return $this->render('image/image.html.twig',
-                array(
-                    'username' => $username,
-                    'useremail' => $useremail,
-                    'form' => $form->createView(),
-                    'url' => '/' . 'uploads' . '/' . 'profile_images' . '/' . $fileName
-                ));
-        }
+                return $this->render('image/image.html.twig',
+                    array(
+                        'username' => $username,
+                        'useremail' => $useremail,
+                        'form' => $form->createView(),
+                        'url' => '/' . 'uploads' . '/' . 'profile_images' . '/' . $fileName
+                    ));
+            }
+
         return $this->render('image/image.html.twig', array(
             'form' => $form->createView(),
-            'username' => "user name",
-            'useremail' => "user email",
+            'username' => $username,
+            'useremail' => $useremail,
             'url' => '/' . 'uploads' . '/' . 'profile_images' . '/' . 'default.jpg'
         ));
     }
-
-//    /**
-//     * @Route("/image/{id}", name="user_profile")
-//     * Method({"GET"})
-//     */
-//    public function showUser($id)
-//    {
-//
-//       $users = $this->getDoctrine()->getRepository(User::class)->find($id);
-//        return $this->render('image/image.html.twig', array('users' => $users));
-//
-//    }
-
-//          /**
-//         * @Route("/image/{id}", name="image_upload")
-//         * Method({"GET"})
-//         */
-//    public function showUser($id)
-//    {
-//
-//       $imagedata = $this->getDoctrine()->getRepository(Image::class)->find($id);
-//
-//       return $this->render('image/image.html.twig', array('imagedata' => $imagedata));
-//   }
-
 }
 
 

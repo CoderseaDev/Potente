@@ -15,8 +15,7 @@ class ImageUploadType extends AbstractType
     {
         $builder
             ->add('image', FileType::class, array(
-                  'label'=>'Upload Image',
-                  'attr' => array('class' => 'mt-3')))
+                'attr' => array('class' => 'mt-3 d-none')))
             ->add('submit', SubmitType::class, array(
                 'label' => 'save',
                 'attr' => array('class' => 'btn btn-dark mt-3')));

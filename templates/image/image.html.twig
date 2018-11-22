@@ -1,59 +1,197 @@
 {% extends 'base.html.twig' %}
 {% block title %}profile image{% endblock title %}
     {% block body %}
-<link href="/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/jquery-1.11.1.min.js"></script>
+        <style>
 
-<!------ Include the above in your HEAD tag ---------->
-<style>
+            /*body {*/
+                /*font-family: 'Open Sans', sans-serif;*/
+            /*}*/
 
-    body
-    {
-        font-family: 'Open Sans', sans-serif;
-    }
+            /*.fb-profile img {*/
+                /*z-index: 0;*/
+                /*width: 30%;*/
+                /*margin-bottom: 10px;*/
+            /*}*/
 
-    .fb-profile img.fb-image-lg{
-        z-index: 0;
-        width: 30%;
-        margin-bottom: 10px;
-    }
+            /*.fb-image-profile {*/
+                /*margin: 0px 10px 0px 50px;*/
+                /*z-index: 9;*/
+                /*width: 20%;*/
+            /*}*/
 
-    .fb-image-profile
-    {
-        margin: 0px 10px 0px 50px;
-        z-index: 9;
-        width: 20%;
-    }
+            /*@media (max-width: 768px) {*/
 
-    @media (max-width:768px)
-    {
+                /*.fb-profile-text > h1 {*/
+                    /*font-weight: 700;*/
+                    /*font-size: 16px;*/
+                /*}*/
 
-        .fb-profile-text>h1{
-            font-weight: 700;
-            font-size:16px;
-        }
+                /*.fb-image-profile {*/
+                    /*margin: -45px 10px 0px 25px;*/
+                    /*z-index: 9;*/
+                    /*width: 20%;*/
+                /*}*/
+            /*}*/
+            {#body#}
+            {#{#}
+                {#font-family: 'Open Sans', sans-serif;#}
+            {#}#}
 
-        .fb-image-profile
-        {
-            margin: -45px 10px 0px 25px;
-            z-index: 9;
-            width: 20%;
-        }
-    }
-</style>
-<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-<div class="container">
-    <div class="fb-profile">
-        {#<img align="left" class="fb-image-lg" src="uploads/profile_images/8d0560cf464ad31a5fbd04aceb84e328.jpeg" alt="Profile image example"/>#}
-        <img align="left" class="fb-image-profile thumbnail" src="{{ url }}" alt="Profile image example"/>
-        <div class="fb-profile-text">
-            <h1>{{username}}</h1>
-            <p>{{useremail}}</p>
-        </div>
+            {#.fb-profile img.fb-image-lg{#}
+                {#z-index: 0;#}
+                {#width: 1000px;#}
+                {#height: 300px;#}
+                {#margin-bottom: 10px;#}
+            {#}#}
+
+            {#.fb-image-profile#}
+            {#{#}
+                {#margin: -90px 10px 0 10px;#}
+                {#z-index: 9;#}
+                {#width: 160px;#}
+                {#height: 160px;#}
+            {#}#}
+
+            [for="image_upload_image"]{
+                display: none;
+            }
+
+            {#@media (max-width:768px)#}
+            {#{#}
+
+                {#.fb-profile-text>h1{#}
+                    {#font-weight: 700;#}
+                    {#font-size:16px;#}
+                {#}#}
+
+                {#.fb-image-profile#}
+                {#{#}
+                    {#margin: -45px 10px 0px 25px;#}
+                    {#z-index: 9;#}
+                    {#width: 20%;#}
+                {#}#}
+            {#}#}
+        </style>
+        {#<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>#}
+        {#<div class="container">#}
+            {#<div class="fb-profile">#}
+                {#<img align="left" class="fb-image-profile thumbnail rounded-circle" height="250" width="100" src="{{ url }}" alt="Profile image example"#}
+                     {#id="uploadimage"/>#}
+
+                {#<div class="fb-profile-text">#}
+                    {#<h1>{{ username }}</h1>#}
+                    {#<p>{{ useremail }}</p>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+        {#//style2#}
+        {#<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>#}
+        {#<div class="container mb-3">#}
+            {#<div class="fb-profile col-12">#}
+                {#<img align="left" class="fb-image-lg" src="uploads/profile_images/symfony-4.png" alt="Profile image example"/>#}
+                {#<img align="left" class="fb-image-profile thumbnail uploadimage" src="{{ url }}" alt="Profile image example"/>#}
+                {#<div class="fb-profile-text">#}
+                    {#<h1>{{ username }}</h1>#}
+                    {#<p>{{ useremail }}</p>#}
+                {#</div>#}
+            {#</div>#}
+            {#<div class="col-md-6 offset-md-2">#}
+                {#{{ form_start(form) }}#}
+                {#{{ form_widget(form) }}#}
+                {#{{ form_end(form) }}#}
+            {#</div>#}
+        {#</div> <!-- /container -->#}
+        {#style3#}
+
+
+
+<hr>
+<div class="container bootstrap snippet">
+    <div class="row">
+  		<div class="col-sm-10"><h1>{{ username }}</h1></div>
+    </div>
+    <div class="row">
+  		<div class="col-sm-3"><!--left col-->
+      <div class="text-center">
+        <img src="{{ url }}" class="avatar rounded-circle img-thumbnail uploadimage" alt="avatar">
+        <h6>Upload a different photo...</h6>
+      </div>
+      </hr>
+      <br>
+          <div class="panel panel-default">
+            <div class="panel-heading">About <i class="fa fa-link fa-1x"></i></div>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+            <li class="list-group-item text-left"><span class="pull-left"><strong>Shares</strong></span> 125</li>
+            <li class="list-group-item text-left"><span class="pull-left"><strong>Likes</strong></span> 13</li>
+            <li class="list-group-item text-left"><span class="pull-left"><strong>Posts</strong></span> 37</li>
+            <li class="list-group-item text-left"><span class="pull-left"><strong>Followers</strong></span> 78</li>
+          </ul>
+          <div class="panel panel-default">
+            <div class="panel-heading">Social Media</div>
+            <div class="panel-body">
+            	<i class="fa fa-facebook fa-2x"></i> <i class="fa fa-github fa-2x"></i> <i class="fa fa-twitter fa-2x"></i> <i class="fa fa-pinterest fa-2x"></i> <i class="fa fa-google-plus fa-2x"></i>
+            </div>
+          </div>
+
+        </div><!--/col-3-->
+    	<div class="col-sm-9">
+          <div class="tab-content">
+            <div class="tab-pane active" id="home">
+                      <div class="form-group">
+                          <div class="col-xs-6">
+                              <label for="first_name"><h4>First name</h4></label>
+                              <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name" title="enter your first name if any." value="{{ username }}">
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <div class="col-xs-6">
+                            <label for="last_name"><h4>Last name</h4></label>
+                              <input type="text" class="form-control" name="lastname" id="last_name" placeholder="last name" title="enter your last name if any.">
+                          </div>
+                      </div>
+                      <div class="form-group">
+
+                          <div class="col-xs-6">
+                              <label for="phone"><h4>Phone</h4></label>
+                              <input type="text" class="form-control" name="phone" id="phone" placeholder="enter phone" title="enter your phone number if any.">
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <div class="col-xs-6">
+                             <label for="mobile"><h4>Mobile</h4></label>
+                              <input type="text" class="form-control" name="mobile" id="mobile" placeholder="enter mobile number" title="enter your mobile number if any.">
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <div class="col-xs-6">
+                              <label for="email"><h4>Email</h4></label>
+                              <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email." value="{{ useremail }}">
+                          </div>
+                      </div>
+                      <div class="form-group">
+
+                          <div class="col-xs-6">
+                              <label for="email"><h4>Location</h4></label>
+                              <input type="email" class="form-control" id="location" placeholder="somewhere" title="enter a location">
+                          </div>
+                      </div>
+                      <div class="form-group">
+                               <div class="col-xs-12">
+                                   {{ form_start(form) }}
+                                   {{ form_widget(form) }}
+                                   {{ form_end(form) }}
+                               </div>
+                      </div>
+              <hr>
+        </div><!--/col-9-->
+    </div><!--/row-->
+    </div>
     </div>
 </div>
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        {{ form_end(form) }}
-    {%  endblock %}
+
+    {% endblock %}
+{% block javascripts %}
+    <script src="/js/main.js"></script>
+{% endblock %}
