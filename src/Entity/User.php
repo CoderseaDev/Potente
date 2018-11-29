@@ -131,7 +131,7 @@ class User implements UserInterface, \Serializable
 
     public function setphone($phone)
     {
-        $this->email = $phone;
+        $this->phone = $phone;
     }
 
     public function getmobile()
@@ -141,7 +141,7 @@ class User implements UserInterface, \Serializable
 
     public function setmobile($mobile)
     {
-        $this->email = $mobile;
+        $this->mobile = $mobile;
     }
 
     public function getlastname()
@@ -151,7 +151,7 @@ class User implements UserInterface, \Serializable
 
     public function setlastname($lastname)
     {
-        $this->email = $lastname;
+        $this->lastname = $lastname;
     }
 
     public function getlocation()
@@ -161,9 +161,8 @@ class User implements UserInterface, \Serializable
 
     public function setlocation($location)
     {
-        $this->email = $location;
+        $this->location = $location;
     }
-
 
     public function getSalt()
     {
@@ -204,5 +203,4 @@ class User implements UserInterface, \Serializable
             // $this->salt
             ) = unserialize($serialized, array('allowed_classes' => false));
     }
-
 }

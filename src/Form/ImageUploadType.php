@@ -15,10 +15,10 @@ class ImageUploadType extends AbstractType
     {
         $builder
             ->add('image', FileType::class, array(
-                'attr' => array('class' => 'mt-3 d-none')))
+                'attr' => array('class' => 'mt-3 ', 'onchange' => 'uploadImage()')))
             ->add('submit', SubmitType::class, array(
                 'label' => 'save',
-                'attr' => array('class' => 'btn btn-dark mt-3')));
+               ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+{% block title %}profile image{% endblock title %}
+    {% block body %}
+        <style>
+            [for="image_upload_image"] {
+                display: none;
+            }
+        </style>
+        <div class="container bootstrap snippet">
+            <div class="row">
+                <div class="col-sm-10"><h1>{{ username }}</h1></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3"><!--left col-->
+                    <div class="text-center">
+                        <img src="{{ url }}" class="avatar rounded-circle img-thumbnail uploadimage" alt="avatar" id="image_upload_file"
+                        onclick="$('#image_upload_image').click();">
+                    </div>
+                    <hr>
+                    <br>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">About <i class="fa fa-link fa-1x"></i></div>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+                        <li class="list-group-item text-left"><span class="pull-left"><strong>Shares</strong></span> 125
+                        </li>
+                        <li class="list-group-item text-left"><span class="pull-left"><strong>Likes</strong></span> 13
+                        </li>
+                        <li class="list-group-item text-left"><span class="pull-left"><strong>Posts</strong></span> 37
+                        </li>
+                        <li class="list-group-item text-left"><span class="pull-left"><strong>Followers</strong></span>
+                            78
+                        </li>
+                    </ul>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Social Media</div>
+                        <div class="panel-body">
+                            <i class="fa fa-facebook fa-2x"></i> <i class="fa fa-github fa-2x"></i> <i
+                                    class="fa fa-twitter fa-2x"></i> <i class="fa fa-pinterest fa-2x"></i> <i
+                                    class="fa fa-google-plus fa-2x"></i>
+                        </div>
+                    </div>
+
+                </div><!--/col-3-->
+                <div class="col-sm-9">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home">
+                            <div class="form-group">
+                                <form method="post" action="/saveProfileFields">
+                                    {#<input type="hidden" name="_token" value="v0i6COHvJFdArYZ3iGb-QX-cDmyKqcL3acWj8u9Kfu4">#}
+                                    <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}" />
+                                    <div class="form-group">
+                                        <label for="lastname">Last Name</label>
+                                        <input type="text" name="lastname" class="form-control" id="lastname"  value="{{ userlastname }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Phone</label>
+                                        <input type="text" class="form-control" name="phone" id="phone" value="{{ userphone }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mobile">Mobile</label>
+                                        <input type="text" class="form-control" name="mobile" id="mobile" value="{{ usermobile }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="location">Location</label>
+                                        <input type="text" class="form-control" name="location" id="location" value="{{ userlocation }}">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </form>
+                            </div>
+                            <!--image form-->
+                            <div class="form-group">
+                            <form name="image_upload" method="post" enctype="multipart/form-data" id="imageUpladForm">
+                                <div id="image_upload">
+                                    <div>
+                                        <label for="image_upload_image" class="required">Image</label>
+                                        <input type="file" id="image_upload_image" name="image_upload[image]" required="required" class="mt-3 d-none" onchange="uploadImage()">
+                                    </div>
+                                    <div>
+                                        <button type="submit" id="image_upload_submit" name="image_upload[submit]" class="d-none">save</button>
+                                    </div><input type="hidden" id="image_upload__token" name="image_upload[_token]" value="HrgwTAaOxZiH6aT6giqPB7RoVVM-4vqA7PB-R9oKYpc"></div>
+                            </form>
+                            </div>
+                        </div><!--/col-9-->
+                    </div><!--/row-->
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}
+{% block javascripts %}
+    <script src="/js/main.js"></script>
+{% endblock %}
