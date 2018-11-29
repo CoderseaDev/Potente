@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\UserType;
 use App\Entity\User;
 use App\Form\UserEdit;
+use App\Form\UserProfileData;
 // use http\Env\Request;
 use Intervention\Image\Facades\Image as Img;
 use Symfony\Component\Console\Input\Input;
@@ -39,13 +40,11 @@ class UserController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $user = new User();
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
         $form = $this->createForm(UserEdit::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $user = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
             return $this->redirectToRoute('user_list');
@@ -61,7 +60,6 @@ class UserController extends Controller
      */
     public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder, \Symfony\Component\Asset\Packages $assetsManager)
     {
-
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
@@ -89,7 +87,6 @@ class UserController extends Controller
         ));
     }
 
-
     /**
      * @Route("/user/{id}",name="user_show")
      */
@@ -113,87 +110,6 @@ class UserController extends Controller
         $response->send();
     }
 
-    /**
-     * @Route("/user/save")
-     */
-    public function save()
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $user = new  User();
-        $entityManager->persist($user);
-        $entityManager->flush();
-        return new SymfonyResponse('saved user with id' . $user->getId());
-    }
-
-
-    /**
-     * @Route("/image", name="image_upload")
-     * Method({"GET"})
-     */
-    public function indexAction(Request $request, \Symfony\Component\Asset\Packages $assetsManager)
-    {
-        $user = new User();
-        $username = $this->getUser()->getUsername();
-        $useremail = $this->getUser()->getEmail();
-
-        $em = $this->getDoctrine()->getManager();
-
-        $imageEn = new Image();
-
-        $user = $this->getUser();
-
-        $form = $this->createForm(ImageUploadType::class, $imageEn);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $file = $imageEn->getImage();
-
-            //mimetype
-            $mimetype = $file->getClientMimeType();
-            //file_Extension
-            $extension = $file->guessExtension();
-            //hashName
-            $hashname = md5(uniqid());
-            //file_Name
-            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-            //image_path
-            $path = $assetsManager->getUrl('uploads/profile_images/' . $fileName);
-            //file_Name
-            $filename = $file->getClientOriginalName();
-            //file_size
-            $size = $file->getClientSize();
-                $file->move($this->getParameter('uploads_directory'), $fileName);
-                $imageEn->setName($fileName);
-                $imageEn->setImage($fileName);
-                $imageEn->setSize($size);
-                $imageEn->setExt($extension);
-                $imageEn->setMinType($mimetype);
-                $imageEn->setHashName($hashname);
-                $url = $imageEn->setUrl('/' . 'uploads' . '/' . 'profile_images' . '/' . $fileName);
-                $imageEn->setUserId($user);
-                $em->persist($imageEn);
-                $em->flush();
-
-                $this->addFlash('notice', 'Post Submitted Successfully!!!');
-
-                return $this->render('image/image.html.twig',
-                    array(
-                        'username' => $username,
-                        'useremail' => $useremail,
-                        'form' => $form->createView(),
-                        'url' => '/' . 'uploads' . '/' . 'profile_images' . '/' . $fileName
-                    ));
-            }
-
-        return $this->render('image/image.html.twig', array(
-            'form' => $form->createView(),
-            'username' => $username,
-            'useremail' => $useremail,
-            'url' => '/' . 'uploads' . '/' . 'profile_images' . '/' . 'default.jpg'
-        ));
-    }
 }
 
 
