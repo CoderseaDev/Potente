@@ -32,7 +32,7 @@ class ProfileController extends Controller
         $userId = $this->getUser()->getId();
 
         $query = $this->getDoctrine()->getManager()->getConnection()
-            ->prepare("SELECT url FROM image LEFT JOIN user ON image.user_id_id = user.id WHERE user_id_id = $userId");
+            ->prepare("SELECT url FROM image LEFT JOIN user ON image.user_id = user.id WHERE user_id = $userId");
         $query->execute();
         $results = $query->fetchAll();
 
@@ -61,15 +61,13 @@ class ProfileController extends Controller
         $em = $this->getDoctrine()->getManager();
         $imageEn = new Image();
 
-        $user = $this->getUser();
-
         $file = $request->files->get('image_upload');
 
-        $user = new User();
-        $userId = $this->getUser()->getId();
+        $user = $this->getUser();
+        $userId = $user->getId();
 
         $query = $this->getDoctrine()->getManager()->getConnection()
-            ->prepare("SELECT id FROM image WHERE user_id_id = $userId");
+            ->prepare("SELECT id FROM image WHERE user_id = $userId");
         $query->execute();
         $results = $query->fetchAll();
         if (!$results) {
@@ -99,6 +97,7 @@ class ProfileController extends Controller
             $url = '/' . 'uploads' . '/' . 'profile_images' . '/' . $fileName;
             $imageEn->setUrl($url);
             $imageEn->setUserId($user);
+
             $em->persist($imageEn);
 
             $response = new Response(json_encode(array("url" => $url)));

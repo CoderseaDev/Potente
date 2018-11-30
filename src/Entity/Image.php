@@ -56,7 +56,7 @@ class Image
      * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user_id;
+    private $user;
 
     public function getId()
     {
@@ -149,12 +149,12 @@ class Image
 
     public function getUserId()
     {
-        return $this->user_id;
+        return $this->user;
     }
 
     public function setUserId($user)
     {
-        $this->user_id = $user;
+        $this->user = $user;
         return $this;
     }
 }
