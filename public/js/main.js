@@ -32,7 +32,7 @@ $( document ).ready( function(){
             }
         });
     } );
-} );
+});
 
 function uploadImage() {
     $("#imageUpladForm").submit();
@@ -40,4 +40,53 @@ function uploadImage() {
 }
 
 
+//GeoChart
+google.charts.load('current', {
+    'packages':['geochart'],
+    'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+});
+google.charts.setOnLoadCallback(drawRegionsMap);
+
+function drawRegionsMap() {
+    var data = google.visualization.arrayToDataTable([
+        ['Country', 'Popularity'],
+        ['Germany', 200],
+        ['United States', 300],
+        ['Brazil', 400],
+        ['Canada', 500],
+        ['France', 600],
+        ['RU', 700]
+    ]);
+
+    var options = {};
+
+    var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+    chart.draw(data, options);
+}
+
+
+//LineChart
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+        ['Year', 'Sales', 'Expenses'],
+        ['2004', 1000, 400],
+        ['2005', 1170, 460],
+        ['2006', 660, 1120],
+        ['2007', 1030, 540]
+    ]);
+
+    var options = {
+        title: 'Company Performance',
+        curveType: 'function',
+        legend: {position: 'bottom'}
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+    chart.draw(data, options);
+}
 
