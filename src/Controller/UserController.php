@@ -20,6 +20,9 @@ use App\Entity\Image;
 use App\Form\ImageUploadType;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
+
 
 
 class UserController extends Controller
@@ -30,7 +33,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        $currentUserId = $this->getUser()->getId();
+        $query = $this->getDoctrine()->getManager()->getConnection()
+            ->prepare("SELECT * FROM user  WHERE id != $currentUserId");
+        $query->execute();
+        $users = $query->fetchAll();
+
         return $this->render('user/index.html.twig', array('users' => $users));
     }
 
@@ -102,12 +110,14 @@ class UserController extends Controller
      */
     public function delete(Request $request, $id)
     {
+
         $users = $this->getDoctrine()->getRepository(User::class)->find($id);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($users);
         $entityManager->flush();
         $response = new SymfonyResponse();
         $response->send();
+
     }
 
 }

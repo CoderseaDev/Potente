@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}profile image{% endblock title %}
+{% block title %}Potente | Profile{% endblock title %}
     {% block body %}
         <style>
             [for="image_upload_image"] {
@@ -19,22 +19,22 @@
                     <hr>
                     <br>
                     <div class="panel panel-default">
-                        <div class="panel-heading">About <i class="fa fa-link fa-1x"></i></div>
+                        <div class="panel-heading">{% trans into 'ar' %} About {% endtrans %}<i class="fa fa-link fa-1x"></i></div>
                     </div>
                     <ul class="list-group">
-                        <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-                        <li class="list-group-item text-left"><span class="pull-left"><strong>Shares</strong></span> 125
+                        <li class="list-group-item text-muted">{% trans into 'ar' %} Activity {% endtrans %}<i class="fa fa-dashboard fa-1x"></i></li>
+                        <li class="list-group-item text-left"><span class="pull-left"><strong style="float: right">{% trans into 'ar' %} Shares {% endtrans %}</strong></span> 125
                         </li>
-                        <li class="list-group-item text-left"><span class="pull-left"><strong>Likes</strong></span> 13
+                        <li class="list-group-item text-left"><span class="pull-left"><strong style="float: right">{% trans into 'ar' %} Likes {% endtrans %}</strong></span> 13
                         </li>
-                        <li class="list-group-item text-left"><span class="pull-left"><strong>Posts</strong></span> 37
+                        <li class="list-group-item text-left"><span class="pull-left"><strong style="float: right">{% trans into 'ar' %} Posts {% endtrans %}</strong></span> 37
                         </li>
-                        <li class="list-group-item text-left"><span class="pull-left"><strong>Followers</strong></span>
+                        <li class="list-group-item text-left"><span class="pull-left"><strong style="float: right">{% trans into 'ar' %} Followers {% endtrans %}</strong></span>
                             78
                         </li>
                     </ul>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Social Media</div>
+                    <div class="panel panel-default" >
+                        <div class="panel-heading">{% trans into 'ar' %} Social Media {% endtrans %}</div>
                         <div class="panel-body">
                             <i class="fa fa-facebook fa-2x"></i> <i class="fa fa-github fa-2x"></i> <i
                                     class="fa fa-twitter fa-2x"></i> <i class="fa fa-pinterest fa-2x"></i> <i
@@ -51,22 +51,22 @@
                                     {#<input type="hidden" name="_token" value="v0i6COHvJFdArYZ3iGb-QX-cDmyKqcL3acWj8u9Kfu4">#}
                                     <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}" />
                                     <div class="form-group">
-                                        <label for="lastname">Last Name</label>
+                                        <label for="lastname" style="float: right">{% trans into 'ar' %} Last Name {% endtrans %}</label>
                                         <input type="text" name="lastname" class="form-control" id="lastname"  value="{{ userlastname }}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="phone">Phone</label>
+                                        <label for="phone" style="float: right">{% trans into 'ar' %} Phone {% endtrans %}</label>
                                         <input type="text" class="form-control" name="phone" id="phone" value="{{ userphone }}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="mobile">Mobile</label>
+                                        <label for="mobile" style="float: right">{% trans into 'ar' %} Mobile {% endtrans %}</label>
                                         <input type="text" class="form-control" name="mobile" id="mobile" value="{{ usermobile }}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="location">Location</label>
+                                        <label for="location" style="float: right">{% trans into 'ar' %} Location {% endtrans %}</label>
                                         <input type="text" class="form-control" name="location" id="location" value="{{ userlocation }}">
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    <button type="submit" class="btn btn-primary" style="float: right">{% trans into 'ar' %} Save {% endtrans %}</button>
                                 </form>
                             </div>
                             <!--image form-->

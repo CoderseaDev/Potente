@@ -1,6 +1,10 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
     <div class="container">
-        <a href="/" class="navbar-brand">symfony</a>
+        <a href="/" class="navbar-brand"><img src="/img/potente2.png"
+         style="
+          width: 30px;
+          filter: invert;">
+        </a>
         <span class="navbar-toggle-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="mobile-nav">
@@ -8,23 +12,23 @@
             <ul class="navbar-nav ml-auto">
                 {% if app.user %}
                     <li class="nav-item">
-                        <a href="/user/new" class="nav-link {{ route=='new_user'?'active':'' }}">add new user</a>
+                        <a href="/user/new" class="nav-link {{ route=='new_user'?'active':'' }}">{% trans into 'ar' %} add new user {% endtrans %}</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/profile" class="nav-link {{ route=='profile'?'active':'' }}">profile</a>
+                        <a href="/profile" class="nav-link {{ route=='profile'?'active':'' }}">{% trans into 'ar' %}profile {% endtrans %}</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/google-charts" class="nav-link {{ route=='google-charts'?'active':'' }}">google-charts</a>
+                        <a href="/google-charts" class="nav-link {{ route=='google-charts'?'active':'' }}">{% trans into 'ar' %} google-charts {% endtrans %}</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/logout" class="nav-link {{ route=='logout'?'active':'' }}">logout</a>
+                        <a href="/logout" class="nav-link {{ route=='logout'?'active':'' }}">{% trans into 'ar' %} logout {% endtrans %}</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a href="/register" class="nav-link {{ route=='user_registration'?'active':'' }}">register</a>
+                        <a href="/register" class="nav-link {{ route=='user_registration'?'active':'' }}">{% trans into 'ar' %} register {% endtrans %}</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/login" class="nav-link {{ route=='login'?'active':'' }}">login</a>
+                        <a href="/login" class="nav-link {{ route=='login'?'active':'' }}">{% trans into 'ar' %} login {% endtrans %}</a>
                     </li>
                 {% endif %}
             </ul>
