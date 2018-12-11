@@ -1,7 +1,3 @@
-{# templates/security/login.html.twig #}
-{# ... you will probably extend your base template, like base.html.twig #}
-
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Potente | Login{% endblock title %}
@@ -9,19 +5,50 @@
         {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
-<form action="{{ path('login') }}" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="_username" class='form-control' value="{{ username }}" />
+        <div class="form-group" style="text-align: right">
+            <form class="form-validation needs-validation" action="{{ path('login') }}" method="post" style="direction: rtl" novalidate>
+                <div class="form-group">
+                    <label for="username">{% trans into 'ar' %}User Name{% endtrans %}</label>
+                    <input type="text" id="username" name="_username" class='form-control' value="{{ username }}"
+                           required/>
+                    <div class="invalid-feedback text-right">
+                        {% trans into 'ar' %} PleaseEnterTheUsername {% endtrans %}
+                    </div>
+                </div>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" class='form-control' name="_password" />
+                <div class="form-group">
+                    <label for="password">{% trans into 'ar' %}Password{% endtrans %}</label>
+                    <input type="password" id="password" class='form-control' name="_password" required/>
+                    <div class="invalid-feedback text-right">
+                        {% trans into 'ar' %} PleaseEnterThePassword {% endtrans %}
+                    </div>
+                </div>
 
-    {#
-        If you want to control the URL the user
-        is redirected to on success (more details below)
-        <input type="hidden" name="_target_path" value="/account" />
-    #}
-
-    <button type="submit" class="mt-3">login</button>
-</form>
+                <button type="submit" class="mt-3">{% trans into 'ar' %} login {% endtrans %}</button>
+            </form>
+        </div>
     {%  endblock %}
+
+{% block javascripts %}
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+
+</script>
+{% endblock %}

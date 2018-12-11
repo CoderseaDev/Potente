@@ -1,7 +1,9 @@
 {% extends 'base.html.twig'%}
 {% block title %}Potente | Edit{% endblock%}
 {% block body %}
+<div style="{{ app.request.locale =="ar" ? "direction: rtl;text-align: right;" : "" }}">
     {{form_start(form)}}
     {{form_widget(form)}}
     {{form_end(form)}}
+</div>
 {% endblock %}

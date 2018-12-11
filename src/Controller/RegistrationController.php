@@ -8,17 +8,47 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 class RegistrationController extends AbstractController
 {
     /**
      * @Route("/register", name="user_registration")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder , TranslatorInterface $translator)
     {
         // 1) build the form
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createFormBuilder($user)
+            ->add('username', TextType::class, array(
+                'label' => $translator->trans('User Name'),
+                'attr' => array('class' => 'form-control')
+              ))
+
+            ->add('email', EmailType::class, array(
+                'label' => $translator->trans('user email'),
+                'attr' => array('class' => 'form-control')))
+
+            ->add('plainPassword', RepeatedType::class, array(
+                'type' => PasswordType::class,
+                'first_options'  => array(
+                    'label' => $translator->trans('Password'),
+                    'attr' => array('class' => 'form-control')),
+                'second_options' => array(
+                    'label' => $translator->trans('Repeat Password'),
+                    'attr' => array('class' => 'form-control'))))
+
+            ->add('save', submitType::class, array(
+                'label' => $translator->trans('Save'),
+                'attr' => array('class' => 'btn btn-dark mt-3')))
+            ->getForm();
+
 
         // 2) handle the submit (will only happen on POST)
         $form->handleRequest($request);
