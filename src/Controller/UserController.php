@@ -2,26 +2,23 @@
 
 namespace App\Controller;
 
-use App\Form\UserType;
+//use App\Form\UserType;
 use App\Entity\User;
-use App\Form\UserEdit;
+//use App\Form\UserEdit;
 use App\Form\UserProfileData;
-// use http\Env\Request;
-use Intervention\Image\Facades\Image as Img;
-use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameWorkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Flex\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Entity\Image;
-use App\Form\ImageUploadType;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 
 
@@ -46,10 +43,24 @@ class UserController extends Controller
      * @Route("/user/edit/{id}",name="edit_user")
      * Method({"GET"})
      */
-    public function edit(Request $request, $id)
+    public function edit(Request $request, $id , TranslatorInterface $translator)
     {
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
-        $form = $this->createForm(UserEdit::class, $user);
+//        $form = $this->createForm(UserEdit::class, $user);
+
+
+        $form = $this->createFormBuilder($user)
+            ->add('username', TextType::class, array(
+                'label' => $translator->trans('User Name'),
+                'attr' => array('class' => 'form-control')))
+            ->add('email', EmailType::class, array(
+                'label' => $translator->trans('user email'),
+                'attr' => array('class' => 'form-control')))
+            ->add('save', submitType::class, array(
+                'label' => $translator->trans('update'),
+                'attr' => array('class' => 'btn btn-dark mt-3')))
+
+            ->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -66,10 +77,33 @@ class UserController extends Controller
      * @Route("/user/new",name="new_user")
      * Method({"GET"})
      */
-    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder, \Symfony\Component\Asset\Packages $assetsManager)
+    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder , TranslatorInterface $translator)
     {
+
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createFormBuilder($user)
+            ->add('username', TextType::class, array(
+                'label' => $translator->trans('User Name'),
+                'attr' => array('class' => 'form-control',
+                )))
+
+            ->add('email', EmailType::class, array(
+                'label' => $translator->trans('user email'),
+                'attr' => array('class' => 'form-control')))
+
+            ->add('plainPassword', RepeatedType::class, array(
+                'type' => PasswordType::class,
+                'first_options'  => array(
+                    'label' => $translator->trans('Password'),
+                    'attr' => array('class' => 'form-control')),
+                'second_options' => array(
+                    'label' => $translator->trans('Repeat Password'),
+                    'attr' => array('class' => 'form-control'))))
+
+            ->add('save', submitType::class, array(
+                'label' => $translator->trans('Save'),
+                'attr' => array('class' => 'btn btn-dark mt-3')))
+            ->getForm();
 
         $form->handleRequest($request);
 
@@ -85,10 +119,9 @@ class UserController extends Controller
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                return $this->redirectToRoute('user_list');
-            }
+
+               return $this->redirectToRoute('user_list');
+
         }
         return $this->render("user/new.html.twig", array(
             'form' => $form->createView()

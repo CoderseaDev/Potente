@@ -1,8 +1,10 @@
 {% extends 'base.html.twig'%}
 {% block title %}Potente | Show{% endblock%}
 {% block body %}
+<div style="{{ app.request.locale =="ar" ? "direction: rtl;text-align: right;" : "" }}">
     <h1>{{users.username}}</h1>
     <p>{{users.email}}</p>
     <hr>
     <a href="/">{% trans into 'ar' %} back {% endtrans %}</a>
+</div>
 {% endblock %}

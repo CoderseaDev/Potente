@@ -47,24 +47,37 @@
                     <div class="tab-content">
                         <div class="tab-pane active" id="home">
                             <div class="form-group">
-                                <form method="post" action="/saveProfileFields">
+                                <form class="form-validation needs-validation" method="post" action="/saveProfileFields" style="direction: rtl" novalidate>
                                     {#<input type="hidden" name="_token" value="v0i6COHvJFdArYZ3iGb-QX-cDmyKqcL3acWj8u9Kfu4">#}
                                     <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}" />
                                     <div class="form-group">
                                         <label for="lastname" style="float: right">{% trans into 'ar' %} Last Name {% endtrans %}</label>
-                                        <input type="text" name="lastname" class="form-control" id="lastname"  value="{{ userlastname }}">
+                                        <input type="text" name="lastname" class="form-control" id="lastname"  value="{{ userlastname }}" required>
+                                        <div class="invalid-feedback text-right">
+                                            {% trans into 'ar' %} PleaseEnterTheLastname {% endtrans %}
+                                        </div>
                                     </div>
+
                                     <div class="form-group">
                                         <label for="phone" style="float: right">{% trans into 'ar' %} Phone {% endtrans %}</label>
-                                        <input type="text" class="form-control" name="phone" id="phone" value="{{ userphone }}">
+                                        <input type="text" class="form-control" name="phone" id="phone" value="{{ userphone }}" required>
+                                        <div class="invalid-feedback text-right">
+                                            {% trans into 'ar' %} PleaseEnterTheuserphone {% endtrans %}
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="mobile" style="float: right">{% trans into 'ar' %} Mobile {% endtrans %}</label>
-                                        <input type="text" class="form-control" name="mobile" id="mobile" value="{{ usermobile }}">
+                                        <input type="text" class="form-control" name="mobile" id="mobile" value="{{ usermobile }}" required>
+                                        <div class="invalid-feedback text-right">
+                                            {% trans into 'ar' %} PleaseEnterTheusermobile {% endtrans %}
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="location" style="float: right">{% trans into 'ar' %} Location {% endtrans %}</label>
-                                        <input type="text" class="form-control" name="location" id="location" value="{{ userlocation }}">
+                                        <input type="text" class="form-control" name="location" id="location" value="{{ userlocation }}" required>
+                                        <div class="invalid-feedback text-right">
+                                            {% trans into 'ar' %} PleaseEnterTheuserlocation {% endtrans %}
+                                        </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary" style="float: right">{% trans into 'ar' %} Save {% endtrans %}</button>
                                 </form>
@@ -91,4 +104,26 @@
     {% endblock %}
 {% block javascripts %}
     <script src="/js/main.js"></script>
+    <script>
+
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+    </script>
 {% endblock %}
