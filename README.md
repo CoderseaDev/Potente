@@ -8,13 +8,13 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Quick start
 
-Symfony framework 4.0.0, vue 2.5.21, Bootstrap 4.1.3, jQuery.
+Symfony framework 4.0.0, vue 2.5.21, Bootstrap 4.1.3, jQuery, Intervention Image, Google charts
 
 Several quick start options are available:
 
 - Clone the repo: `git clone https://github.com/CoderseaLTD/Potente.git`
-- Install with [npm]: `npm install`
-- Install with [Composer]: `composer install`
+- Install with npm: `npm install`
+- Install with Composer: `composer install`
 - Install via CDN:
 
 ```html
