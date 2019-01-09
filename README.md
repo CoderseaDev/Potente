@@ -1,10 +1,75 @@
-<p align="center">
-<a href="https://symfony.com" target="_blank">
-    <img src="https://symfony.com/logos/symfony_black_02.svg">
-</a>
-</p>
+# potente
 
-## About Symfony
+Is a site that add or register a new user and display his data in the users' table. The admin can modify the user's data,This site is using symfony framework to make it smart and easy to deal with the data. 
+
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
+## Quick start
+
+Symfony framework 4.0.0, vue 2.5.21, Bootstrap 4.1.3, jQuery.
+
+Several quick start options are available:
+
+- Clone the repo: `git clone https://github.com/CoderseaLTD/Potente.git`
+- Install with [npm]: `npm install`
+- Install with [Composer]: `composer install`
+- Install via CDN:
+
+```html
+*JS
+    <!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!-- JqueryJS-->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+   <!-- loader.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lazyad-loader/1.1.11/lazyad-loader.min.js" integrity="sha256-7LkWEzqTdpEfELxcZZlS6wAx5Ff13zZ83lYO2/ujj7g=" crossorigin="anonymous"></script>
+
+   <!-- Bootstrapjs-->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+   <!-- popper-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+*css
+   <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+   <!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- BootstrapCSS -->
+<link rel="stylesheet" href="https://bootswatch.com/4/cosmo/bootstrap.min.css">
+```
+> The CDN is updated after the release is made public, which means that there is a delay between the publishing of a release and its availability on the CDN.
+
+## Installation
+
+[Install Symfony](https://symfony.com/doc/current/setup.html) with Composer (see [requirements details](https://symfony.com/doc/current/reference/requirements.html)).
+Symfony follows the [semantic versioning](https://semver.org/) strictly, publishes "Long Term Support" (LTS) versions and has a [release process](https://symfony.com/doc/current/contributing/community/releases.html) that is predictable and business-friendly.
+and there are some notes you need to compelete your symfony project coreectly:
+
+- To make entity: 
+  - php bin/console make:entity
+- To make migration:
+  - php bin/console make:migration
+  - php bin/console doctrine:migrations:migrate
+- To use annotation:
+  - composer require annotations
+- To make controller:
+  - php bin/console make:controller
+
+## Dev
+
+* path: http://potente.dev.codersea.com
+* Usernname: admin
+* Password: 123456
+
+<p align="center">
+<img src="https://symfony.com/logos/symfony_black_02.svg">
+</p>
 
 - Symfony is a set of PHP Components, a Web Application framework, a Philosophy, and a Community — all working together in harmony,Symfony is a PHP framework for web applications and a set of reusable PHP components. Symfony is used by thousands of web applications (including BlaBlaCar.com and Spotify.com) and most of the [popular PHP projects](https://symfony.com/projects) (including Drupal and Magento).
   Symfony was released in 2005 and has made a long way to win the reputation of the most mature and reliable PHP framework. It is the number 1 choice for the enterprise web applications. And here is [why](https://hackernoon.com/7-good-reasons-to-use-symfony-framework-for-your-project-265f96dcf759):
@@ -37,28 +102,10 @@
    
    1) Incomplete or outdated documentation is a problem of many technologies. Symfony documentation is considered one of the best, compared to the documentation of other PHP frameworks. It is clearly written, well-structured, supplied with eхamples, and updated from version to version. You can find an explanation of every component and the development process as a whole.
 
-
 ## Learning Symfony
 
 - Symfony has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Symfony documentation](https://symfony.com/doc/current/index.html#gsc.tab=0) is thorough, complete, and makes it a breeze to get started learning the framework.
 - there are some videos help you to [learn Symfony](https://www.youtube.com/playlist?list=PLbR_t0NLAA2NpymV0rPLr-D_GiKK8owNu).
-
-## Installation
-
-[Install Symfony](https://symfony.com/doc/current/setup.html) with Composer (see [requirements details](https://symfony.com/doc/current/reference/requirements.html)).
-Symfony follows the [semantic versioning](https://semver.org/) strictly, publishes "Long Term Support" (LTS) versions and has a [release process](https://symfony.com/doc/current/contributing/community/releases.html) that is predictable and business-friendly.
-and there are some notes you need to compelete your symfony project coreectly:
-
-- To make entity: 
-  - php bin/console make:entity
-- To make migration:
-  - php bin/console make:migration
-  - php bin/console doctrine:migrations:migrate
-- To use annotation:
-  - composer require annotations
-- To make controller:
-  - php bin/console make:controller
-
 
 ## Documentation
 
@@ -79,3 +126,5 @@ Symfony is an Open Source, community-driven project with thousands of [contribut
 
 ## Security Issues
 If you discover a security vulnerability within Symfony, please follow our [disclosure procedure](https://symfony.com/doc/master/contributing/code/security.html).
+
+
