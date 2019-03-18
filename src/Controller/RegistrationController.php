@@ -14,6 +14,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Services\Fetcher;
+use App\Services\Paginator;
+use App\Services\Sum;
 
 
 class RegistrationController extends AbstractController
@@ -21,7 +24,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="user_registration")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder , TranslatorInterface $translator)
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder , TranslatorInterface $translator, Fetcher $fetcher, Paginator $paginator, Sum $sum)
     {
         // 1) build the form
         $user = new User();
@@ -69,9 +72,15 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('user_list');
         }
 
+        $result= $fetcher->get('https://api.coinmarketcap.com/v2/listings/');
+        $partialArray= $paginator->getPartial($result['data'],10,10);
         return $this->render(
             'registration/register.html.twig',
-            array('form' => $form->createView())
+            array('form' => $form->createView(),
+                  //'getURL' => $fetcher->get('https://api.coinmarketcap.com/v2/listings/')
+                  'partial_array' =>$partialArray,
+                  'getsum' => $sum->getPartial(10 ,60)
+            )
         );
     }
 }
